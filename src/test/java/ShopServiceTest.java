@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopServiceTest {
 
     @Test
-    void addOrderTest() {
+    void addOrderTest() throws ProductNotFoundException{
         //GIVEN
         Product product=new Product("P1","Produkt1");
         ProductRepo productRepo=new ProductRepo();
@@ -53,7 +53,7 @@ class ShopServiceTest {
         assertEquals(expected,actual);
     }
 
-   /* @Test
+    @Test
     void addOrderTest_whenInvalidProductId_expectNull() {
         //GIVEN
         //ShopService shopService = ShopService.builder().build();
@@ -67,12 +67,12 @@ class ShopServiceTest {
                 .productRepo(productRepo)
                 .orderRepo(repo)
                 .build();
-        List<String> productsIds = List.of("T1", "T2");
+        List<String> nonExistentproductsIds = List.of("T1", "T2");
 
         //WHEN
-        Order actual = shopService.addOrder(productsIds);
+        assertThrows(ProductNotFoundException.class,
+                ()->shopService.addOrder(nonExistentproductsIds),
+                "Expected ProductNotFoundException, but it wasn't thrown");
 
-        //THEN
-        assertNull(actual);
-    }*/
+    }
 }
