@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import java.util.Optional;
 class ProductRepoTest {
 
     @org.junit.jupiter.api.Test
@@ -25,13 +25,19 @@ class ProductRepoTest {
     void getProductById() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
+        Product product1=new Product("1","Produkt1");
+        Product product2=new Product("2","Produkt2");
+        repo.addProduct(product1);
+        repo.addProduct(product2);
 
         //WHEN
-        Product actual = repo.getProductById("1");
+        Optional<Product> existingProduct = repo.getProductById("1");
+        assertTrue(existingProduct.isPresent());
+        assertEquals(product1,existingProduct.get());
 
-        //THEN
-        Product expected = new Product("1", "Apfel");
-        assertEquals(actual, expected);
+        //wenn Produkt nicht existiert
+        Optional<Product> nonExistingProduct = repo.getProductById("11");
+        assertTrue(nonExistingProduct.isEmpty());
     }
 
     @org.junit.jupiter.api.Test
