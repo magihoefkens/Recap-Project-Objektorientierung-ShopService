@@ -28,7 +28,7 @@ class OrderListRepoTest {
     }
 
     @Test
-    void getOrderById() {
+    void getOrderById() throws OrderNotFoundException{
         //GIVEN
         OrderListRepo repo = new OrderListRepo();
 
@@ -37,7 +37,8 @@ class OrderListRepoTest {
         repo.addOrder(newOrder);
 
         //WHEN
-        Order actual = repo.getOrderById("1");
+        Order actual = repo.getOrderById("1")
+                .orElseThrow(()->new OrderNotFoundException("order not found"));
 
         //THEN
         Product product1 = new Product("1", "Apfel");

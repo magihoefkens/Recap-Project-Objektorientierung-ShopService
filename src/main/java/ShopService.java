@@ -40,4 +40,11 @@ public class ShopService {
                 filter(order -> order.orderStatus().equals(orderStatus))
                 .collect(Collectors.toList());
     }
+    //Add an 'updateOrder' method in the ShopService that updates the Order based on an orderId and a new order status
+    public void updateOrder(String oderId,OrderStatus orderStatus) throws OrderNotFoundException {
+        Order order=this.orderRepo.getOrderById(oderId)
+                .orElseThrow(()-> new OrderNotFoundException("Order mit id "+oderId+" nicht gefunden!"));
+        Order updateOrder=order.withOrderStatus(orderStatus);
+
+    }
 }
